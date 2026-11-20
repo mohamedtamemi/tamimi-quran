@@ -19,6 +19,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useRecitation } from '../../src/audio/RecitationProvider';
 import { createRecitationFileName } from '../../src/audio/file-name';
+import {
+  createOnlineTrack,
+  ONLINE_RECITERS,
+} from '../../src/audio/online-recitation';
 import { BrandHeader } from '../../src/components/BrandHeader';
 import {
   createQuranRepository,
@@ -66,6 +70,7 @@ export default function AudioScreen() {
   const [tracks, setTracks] = useState<RecitationTrack[]>([]);
   const [surahs, setSurahs] = useState<SurahSummary[]>([]);
   const [selectedSurahId, setSelectedSurahId] = useState(1);
+  const [selectedOnlineReciterId, setSelectedOnlineReciterId] = useState(1);
   const [reciterName, setReciterName] = useState('');
   const [surahPickerOpen, setSurahPickerOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -74,6 +79,9 @@ export default function AudioScreen() {
   const [feedback, setFeedback] = useState('');
 
   const selectedSurah = surahs.find((surah) => surah.id === selectedSurahId);
+  const selectedOnlineReciter = ONLINE_RECITERS.find(
+    (reciter) => reciter.id === selectedOnlineReciterId,
+  );
   const isRTL = language === 'ar';
 
   const loadLibrary = useCallback(async () => {
@@ -346,6 +354,86 @@ export default function AudioScreen() {
               {t('audioWebUnavailable', language)}
             </Text>
           ) : null}
+        </View>
+
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: palette.surface,
+              borderColor: palette.border,
+              direction: isRTL ? 'rtl' : 'ltr',
+            },
+          ]}
+        >
+          <Text style={[styles.sectionTitle, { color: palette.text }]}>
+            {t('onlineReciters', language)}
+          </Text>
+          <Text style={[styles.hint, { color: palette.muted }]}>
+            {t('onlineRecitationNotice', language)}
+          </Text>
+          <View style={styles.reciterList}>
+            {ONLINE_RECITERS.map((reciter) => {
+              const selected = reciter.id === selectedOnlineReciterId;
+              return (
+                <Pressable
+                  key={reciter.id}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected }}
+                  onPress={() => setSelectedOnlineReciterId(reciter.id)}
+                  style={[
+                    styles.reciterOption,
+                    {
+                      backgroundColor: selected ? palette.soft : palette.paper,
+                      borderColor: selected ? palette.olive : palette.border,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.reciterName,
+                      { color: selected ? palette.oliveStrong : palette.text },
+                    ]}
+                  >
+                    {language === 'ar' ? reciter.nameAr : reciter.nameEn}
+                  </Text>
+                  {selected ? (
+                    <MaterialCommunityIcons
+                      name="check-circle"
+                      size={18}
+                      color={palette.olive}
+                    />
+                  ) : null}
+                </Pressable>
+              );
+            })}
+          </View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ disabled: !selectedSurah || !selectedOnlineReciter }}
+            disabled={!selectedSurah || !selectedOnlineReciter}
+            onPress={() => {
+              if (!selectedSurah || !selectedOnlineReciter) return;
+              clearError();
+              void playTrack(createOnlineTrack(selectedOnlineReciter, selectedSurah));
+            }}
+            style={[
+              styles.primaryButton,
+              {
+                backgroundColor: palette.olive,
+                opacity: !selectedSurah || !selectedOnlineReciter ? 0.55 : 1,
+              },
+            ]}
+          >
+            <MaterialCommunityIcons
+              name="play-circle-outline"
+              color={palette.surface}
+              size={20}
+            />
+            <Text style={[styles.primaryButtonText, { color: palette.surface }]}>
+              {t('streamSelectedRecitation', language)}
+            </Text>
+          </Pressable>
         </View>
 
         <View
@@ -743,6 +831,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     fontFamily: fonts.interface,
     fontSize: 15,
+  },
+  reciterList: {
+    gap: spacing.xs,
+  },
+  reciterOption: {
+    minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.sm,
+    borderWidth: 1,
+    borderRadius: radii.sm,
+  },
+  reciterName: {
+    flex: 1,
+    fontFamily: fonts.medium,
+    fontSize: 14,
+    textAlign: 'auto',
   },
   primaryButton: {
     minHeight: 48,

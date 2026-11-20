@@ -8,6 +8,7 @@ export interface RecitationTrack {
   file_uri: string;
   file_size: number;
   added_at: string;
+  source?: 'local' | 'stream';
 }
 
 export interface RecitationRepository {

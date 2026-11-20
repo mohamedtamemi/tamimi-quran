@@ -14,6 +14,7 @@ import { Platform } from 'react-native';
 
 import { initializeDatabase } from '../src/data/quran-repository';
 import { RecitationProvider } from '../src/audio/RecitationProvider';
+import '../src/notifications/notification-handler';
 import { useAppStore } from '../src/store/app-store';
 import { themes } from '../src/theme';
 

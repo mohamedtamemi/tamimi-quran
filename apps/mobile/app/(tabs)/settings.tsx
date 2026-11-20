@@ -1,12 +1,23 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState, type ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BrandHeader } from '../../src/components/BrandHeader';
 import { APP_CONFIG } from '../../src/config';
 import { t } from '../../src/i18n';
+import {
+  cancelDailyReadingReminder,
+  scheduleDailyReadingReminder,
+} from '../../src/notifications/daily-reading-reminder';
 import { useAppStore } from '../../src/store/app-store';
 import { fonts, radii, spacing, themes, type ThemeMode } from '../../src/theme';
 
@@ -18,8 +29,45 @@ export default function SettingsScreen() {
   const setTheme = useAppStore((state) => state.setTheme);
   const setLanguage = useAppStore((state) => state.setLanguage);
   const setFontSize = useAppStore((state) => state.setFontSize);
+  const dailyReminderEnabled = useAppStore((state) => state.dailyReminderEnabled);
+  const setDailyReminderEnabled = useAppStore(
+    (state) => state.setDailyReminderEnabled,
+  );
   const palette = themes[theme];
   const [isThemeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [reminderBusy, setReminderBusy] = useState(false);
+  const [reminderError, setReminderError] = useState('');
+  const [reminderFeedback, setReminderFeedback] = useState('');
+
+  const toggleDailyReminder = async () => {
+    setReminderError('');
+    setReminderFeedback('');
+    if (Platform.OS === 'web') {
+      setReminderError(t('notificationsWebUnavailable', language));
+      return;
+    }
+
+    setReminderBusy(true);
+    try {
+      if (dailyReminderEnabled) {
+        await cancelDailyReadingReminder();
+        setDailyReminderEnabled(false);
+        setReminderFeedback(t('reminderDisabled', language));
+      } else {
+        const scheduled = await scheduleDailyReadingReminder(language);
+        if (!scheduled) {
+          setReminderError(t('reminderPermissionDenied', language));
+          return;
+        }
+        setDailyReminderEnabled(true);
+        setReminderFeedback(t('reminderEnabled', language));
+      }
+    } catch {
+      setReminderError(t('reminderError', language));
+    } finally {
+      setReminderBusy(false);
+    }
+  };
 
   const themeOptions: { value: ThemeMode; label: string }[] = [
     { value: 'paper', label: t('paperTheme', language) },
@@ -151,6 +199,81 @@ export default function SettingsScreen() {
 
         <SettingSection
           palette={palette}
+          title={t('notifications', language)}
+          icon="bell-outline"
+        >
+          <Pressable
+            accessibilityRole="switch"
+            accessibilityState={{ checked: dailyReminderEnabled, disabled: reminderBusy }}
+            disabled={reminderBusy}
+            onPress={() => void toggleDailyReminder()}
+            style={[
+              styles.reminderRow,
+              { borderBottomColor: palette.border, direction: language === 'ar' ? 'rtl' : 'ltr' },
+            ]}
+          >
+            <View style={styles.reminderCopy}>
+              <Text style={[styles.settingLabel, { color: palette.text }]}>
+                {t('dailyReadingReminder', language)}
+              </Text>
+              <Text style={[styles.reminderTime, { color: palette.muted }]}>
+                {t('reminderTime', language)}
+              </Text>
+            </View>
+            {reminderBusy ? (
+              <MaterialCommunityIcons
+                name="loading"
+                size={22}
+                color={palette.olive}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name={dailyReminderEnabled ? 'toggle-switch' : 'toggle-switch-off-outline'}
+                size={32}
+                color={dailyReminderEnabled ? palette.olive : palette.muted}
+              />
+            )}
+          </Pressable>
+          {reminderError ? (
+            <Text style={[styles.reminderMessage, { color: palette.oliveStrong }]}>
+              {reminderError}
+            </Text>
+          ) : reminderFeedback ? (
+            <Text style={[styles.reminderMessage, { color: palette.oliveStrong }]}>
+              {reminderFeedback}
+            </Text>
+          ) : null}
+          <Text style={[styles.reminderTime, { color: palette.muted }]}>
+            {t('reminderLocalOnly', language)}
+          </Text>
+        </SettingSection>
+
+        <SettingSection
+          palette={palette}
+          title={t('featureSuggestions', language)}
+          icon="lightbulb-on-outline"
+        >
+          <Text style={[styles.attribution, { color: palette.muted }]}>
+            {t('suggestionsIntro', language)}
+          </Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/suggestions')}
+            style={[styles.suggestionButton, { backgroundColor: palette.soft }]}
+          >
+            <Text style={[styles.suggestionButtonText, { color: palette.oliveStrong }]}>
+              {t('featureSuggestions', language)}
+            </Text>
+            <MaterialCommunityIcons
+              name="chevron-right"
+              size={20}
+              color={palette.olive}
+            />
+          </Pressable>
+        </SettingSection>
+
+        <SettingSection
+          palette={palette}
           title={t('aboutApp', language)}
           icon="information-outline"
         >
@@ -162,6 +285,12 @@ export default function SettingsScreen() {
           </Text>
           <Text style={[styles.sourceLink, { color: palette.olive }]}>
             {APP_CONFIG.quranCorpus.licenseUrl}
+          </Text>
+          <Text style={[styles.attribution, { color: palette.muted }]}>
+            {APP_CONFIG.recitationAudio.attribution}
+          </Text>
+          <Text style={[styles.sourceLink, { color: palette.olive }]}>
+            {APP_CONFIG.recitationAudio.sourceUrl}
           </Text>
           <Text style={[styles.attribution, { color: palette.muted }]}>
             {t('audioRightsNotice', language)}
@@ -352,6 +481,40 @@ const styles = StyleSheet.create({
     fontFamily: fonts.bold,
     fontSize: 15,
     textAlign: 'center',
+  },
+  reminderRow: {
+    minHeight: 56,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  reminderCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  reminderTime: {
+    fontFamily: fonts.interface,
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: 'auto',
+  },
+  reminderMessage: {
+    paddingVertical: spacing.xs,
+    fontFamily: fonts.medium,
+    fontSize: 13,
+  },
+  suggestionButton: {
+    minHeight: 46,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.sm,
+    borderRadius: radii.sm,
+  },
+  suggestionButtonText: {
+    fontFamily: fonts.medium,
+    fontSize: 14,
   },
   attribution: {
     fontFamily: fonts.interface,

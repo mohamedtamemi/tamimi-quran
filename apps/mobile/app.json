@@ -57,6 +57,14 @@
           "enableBackgroundPlayback": true,
           "recordAudioAndroid": false
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "enableRemoteNotifications": false,
+          "defaultChannel": "daily-reading",
+          "color": "#627536"
+        }
       ]
     ],
     "experiments": {

@@ -15,9 +15,10 @@ export const APP_CONFIG = {
     bookmarks: true,
     search: true,
     audio: true,
+    featureSuggestions: true,
     tajweed: false,
     sync: false,
-    notifications: false,
+    notifications: true,
   },
   quranCorpus: {
     source: 'quran-json v3.1.2',
@@ -41,11 +42,23 @@ export const APP_CONFIG = {
   },
   recitationAudio: {
     bundled: false,
-    provider: 'user-imported-local-files',
+    provider: 'QuranicAudio.com direct streams and user-imported local files',
     attribution:
-      'Audio files are imported by the user and remain on the device. No recitation audio is bundled or redistributed.',
+      'Online recordings stream directly from QuranicAudio.com and are attributed to Quran Foundation and the named reciter. No recitation audio is bundled or re-hosted.',
     rightsNotice:
-      'Users are responsible for importing audio they are entitled to store and play.',
+      'Online streaming requires internet and is for personal use under QuranicAudio.com terms. Offline audio remains limited to user-imported files the user is entitled to store.',
+    sourceUrl: 'https://quranicaudio.com/about',
+  },
+  dailyReminder: {
+    enabled: true,
+    localOnly: true,
+    defaultHour: 20,
+  },
+  featureFeedback: {
+    enabled: true,
+    issueListUrl: 'https://github.com/mohamedtamemi/tamimi-quran/issues',
+    newIssueUrl: 'https://github.com/mohamedtamemi/tamimi-quran/issues/new',
+    submissionRequiresUserAction: true,
   },
   tafsirSources: [
     { id: 'al-muyassar', name: { ar: 'التفسير الميسر', en: 'Al-Muyassar' } },

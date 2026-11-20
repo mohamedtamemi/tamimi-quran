@@ -144,7 +144,9 @@ export function RecitationProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (repeatMode !== 'off' || !activeTrack) return;
+    if (repeatMode !== 'off' || !activeTrack || activeTrack.source === 'stream') {
+      return;
+    }
     void repository
       .listTracks()
       .then((tracks) => {
