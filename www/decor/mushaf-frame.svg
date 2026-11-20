@@ -1,22 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1000" preserveAspectRatio="none">
   <defs>
-    <pattern id="arabesque" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M10 1C13 6 18 7 19 10c-4 1-5 6-9 9-4-3-5-8-9-9 1-3 6-4 9-9Z" fill="#e8f4f8" stroke="#1673a8" stroke-width=".8"/>
-      <path d="M10 3v14M3 10h14M5 5l10 10M15 5 5 15" stroke="#b34755" stroke-width=".55"/>
-      <circle cx="10" cy="10" r="2.2" fill="#c89a38" stroke="#1673a8" stroke-width=".6"/>
+    <pattern id="mushaf-edge" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M9 1c2.2 3.2 5.2 5.8 8 8-2.8 2.2-5.8 4.8-8 8-2.2-3.2-5.2-5.8-8-8 2.8-2.2 5.8-4.8 8-8Z" fill="#edf5f8" stroke="#397f9f" stroke-width=".8"/>
+      <path d="M9 3v12M3 9h12M5 5l8 8M13 5l-8 8" fill="none" stroke="#a94b55" stroke-width=".55"/>
+      <circle cx="9" cy="9" r="1.8" fill="#c89a38"/>
     </pattern>
-    <pattern id="fine" width="8" height="8" patternUnits="userSpaceOnUse">
-      <path d="M0 4Q4 0 8 4T16 4M4 0Q8 4 4 8T4 16" fill="none" stroke="#71a9bf" stroke-width=".45"/>
-    </pattern>
+    <mask id="edge-only">
+      <rect width="500" height="1000" fill="white"/>
+      <rect x="24" y="24" width="452" height="952" fill="black"/>
+    </mask>
   </defs>
-  <rect width="500" height="1000" fill="url(#arabesque)"/>
-  <rect x="25" y="25" width="450" height="950" fill="none"/>
-  <rect x="17" y="17" width="466" height="966" fill="none" stroke="#1673a8" stroke-width="2.5"/>
-  <rect x="20" y="20" width="460" height="960" fill="none" stroke="#bd9144" stroke-width="1"/>
-  <rect x="22" y="22" width="456" height="956" fill="none" stroke="url(#fine)" stroke-width="3"/>
-  <g fill="#fbfdff" stroke="#1673a8" stroke-width="1.5">
-    <path d="M17 17h42q-21 0-21 21 0-21-21-21Zm466 0h-42q21 0 21 21 0-21 21-21ZM17 983h42q-21 0-21-21 0 21-21 21Zm466 0h-42q21 0 21-21 0 21 21 21Z"/>
-    <circle cx="38" cy="38" r="11"/><circle cx="462" cy="38" r="11"/><circle cx="38" cy="962" r="11"/><circle cx="462" cy="962" r="11"/>
+  <rect width="500" height="1000" fill="url(#mushaf-edge)" mask="url(#edge-only)"/>
+  <rect x="14" y="14" width="472" height="972" rx="4" fill="none" stroke="#1473a5" stroke-width="2.5"/>
+  <rect x="19" y="19" width="462" height="962" rx="3" fill="none" stroke="#c89a38" stroke-width="1.3"/>
+  <rect x="23" y="23" width="454" height="954" fill="none" stroke="#72a7b9" stroke-width=".8"/>
+  <g fill="#fbfdff" stroke="#1473a5" stroke-width="1.6">
+    <path d="M14 14h42c-20 0-34 14-34 34V14Zm472 0h-42c20 0 34 14 34 34V14ZM14 986h42c-20 0-34-14-34-34v34Zm472 0h-42c20 0 34-14 34-34v34Z"/>
+    <circle cx="30" cy="30" r="9"/><circle cx="470" cy="30" r="9"/>
+    <circle cx="30" cy="970" r="9"/><circle cx="470" cy="970" r="9"/>
   </g>
-  <g fill="#c89a38"><circle cx="38" cy="38" r="3"/><circle cx="462" cy="38" r="3"/><circle cx="38" cy="962" r="3"/><circle cx="462" cy="962" r="3"/></g>
+  <g fill="#c89a38"><circle cx="30" cy="30" r="2.8"/><circle cx="470" cy="30" r="2.8"/><circle cx="30" cy="970" r="2.8"/><circle cx="470" cy="970" r="2.8"/></g>
 </svg>

@@ -47,18 +47,19 @@ main{max-width:760px;margin:0 auto;padding:14px 14px 40px}
 .empty{color:var(--mu);text-align:center;padding:36px 12px}
 #rd{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 #rd[hidden]{display:none}
-.rh{position:relative;z-index:2;flex:none;display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:8px;background:var(--bg);color:var(--ink);padding:7px 12px;border-bottom:1px solid var(--ln);isolation:isolate}
+.rh{position:relative;z-index:2;flex:none;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:10px;background:var(--bg);color:var(--ink);padding:8px 14px;border-bottom:1px solid var(--ln);isolation:isolate}
 .rh::before{content:"";position:absolute;inset:5px 58px;z-index:-1;pointer-events:none;background:url('decor/mushaf-header.svg') center/100% 100% no-repeat;opacity:.95}
-.rh .rh-icon{width:40px;height:40px;border-radius:13px;background:var(--hl);color:var(--ac);font-size:21px}
+.rh .rh-icon{width:42px;height:42px;border:1px solid color-mix(in srgb,var(--ac) 22%,var(--ln));border-radius:14px;background:var(--sf);color:var(--ac);font-size:21px;box-shadow:0 2px 6px #16374712;transition:transform .16s,background .16s}
+.rh .rh-icon:active,.book-nav button:active{transform:scale(.94)}
 .rh .rh-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center}
 .rh .rh-meta span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;padding:5px 8px;border:1px solid color-mix(in srgb,var(--ac) 44%,var(--ln));border-radius:12px;background:var(--paper);font:400 17px 'Amiri Quran',serif;color:var(--ink);box-shadow:0 2px 4px rgba(20,50,70,.12)}
 .rh .rh-meta span:first-child{border-radius:12px 2px 2px 12px}.rh .rh-meta span:last-child{border-radius:2px 12px 12px 2px}
-.book-stage{position:relative;flex:1;min-height:0;width:100%;max-width:760px;margin:0 auto;padding:12px 14px 6px;perspective:1600px}
+.book-stage{position:relative;flex:1;min-height:0;width:100%;max-width:760px;margin:0 auto;padding:10px 14px 4px;perspective:1600px}
 .book-area{position:relative;width:100%;height:100%;min-height:0;touch-action:pan-y}
 #rd[data-orientation="landscape"] .book-stage{display:grid;place-items:center;max-width:1000px}
 #rd[data-orientation="landscape"] .book-area{width:min(100%,980px);height:auto;aspect-ratio:1.25;max-height:100%}
 #rd.ayat-hidden .book-area .msh,#rd.ayat-hidden .book-area .lst{visibility:hidden}
-.book-page{position:absolute;inset:0;z-index:0;overflow-y:auto;overscroll-behavior:contain;background:var(--paper);border:0;border-radius:5px;box-shadow:inset 8px 0 16px rgba(0,0,0,.045),0 6px 18px rgba(0,0,0,.1);padding:36px 36px 38px;transform-style:preserve-3d;backface-visibility:hidden}
+.book-page{position:absolute;inset:0;z-index:0;overflow-y:auto;overscroll-behavior:contain;background:linear-gradient(90deg,color-mix(in srgb,var(--ink) 5%,var(--paper)),var(--paper) 4%,var(--paper) 96%,color-mix(in srgb,var(--ink) 3%,var(--paper)));border:1px solid color-mix(in srgb,var(--ac) 14%,var(--ln));border-radius:5px;box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--paper) 72%,transparent),inset 8px 0 16px rgba(0,0,0,.045),0 7px 20px rgba(0,0,0,.12);padding:42px 38px 42px;transform-style:preserve-3d;backface-visibility:hidden;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ac) 30%,transparent) transparent}
 .book-page::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:url('decor/mushaf-frame.svg') center/100% 100% no-repeat}
 .book-page::after{content:none}
 .book-page.page{max-width:none;height:100%;margin:0 auto}
@@ -66,21 +67,27 @@ main{max-width:760px;margin:0 auto;padding:14px 14px 40px}
 .book-page.page-front{z-index:1;transform-origin:right center;transition:transform .42s cubic-bezier(.2,.72,.22,1),box-shadow .42s}
 .book-page.page-front.turn-next{transform:rotateY(-82deg);box-shadow:0 10px 32px rgba(0,0,0,.28)}
 .book-page.page-front.turn-prev{transform-origin:left center;transform:rotateY(82deg);box-shadow:0 10px 32px rgba(0,0,0,.28)}
-.book-nav{flex:none;display:flex;align-items:center;justify-content:center;gap:11px;min-height:54px;padding:4px 14px 8px;color:var(--mu)}
-.book-nav button{min-width:42px;min-height:40px;padding:5px 12px;border:1px solid #bfd4df;border-radius:99px;background:#e8f3f8;color:var(--ac);font-size:19px}
-.book-nav button:disabled{opacity:.35}
-.book-nav .count{min-width:64px;padding:4px 14px;border:2px solid #bed1db;border-radius:8px 8px 13px 13px;background:#edf6fa;text-align:center;color:var(--ink);font:400 20px 'Amiri Quran',serif}
-.running-head{margin:0 0 14px;padding:0 0 6px;border-bottom:1px solid var(--ln);text-align:center;color:var(--ac);font:400 18px 'Amiri Quran',serif}
-@media(max-width:520px){.book-stage{padding:7px 6px 3px}.book-page{padding:30px 28px 32px}.book-nav{min-height:46px}.rh{padding:6px 8px}.rh::before{inset:5px 45px}.rh .rh-meta{gap:4px}.rh .rh-meta span{padding:4px 5px;font-size:15px}}
+.book-nav{flex:none;direction:rtl;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;width:min(100%,720px);min-height:62px;margin:0 auto;padding:5px 18px calc(8px + env(safe-area-inset-bottom,0px));color:var(--mu)}
+.book-nav .nav-group{display:flex;align-items:center;gap:8px}
+.book-nav .nav-group:last-child{justify-content:flex-end}
+.book-nav button{width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid color-mix(in srgb,var(--ac) 22%,var(--ln));border-radius:15px;background:var(--sf);color:var(--ac);font-size:24px;line-height:1;box-shadow:0 2px 7px #18384712;transition:transform .16s,background .16s}
+.book-nav button:hover:not(:disabled){background:var(--hl)}
+.book-nav button:disabled{opacity:.36;box-shadow:none}
+.book-nav button[aria-pressed="true"]{background:var(--ac);color:var(--sf);border-color:var(--ac)}
+.book-nav .nav-label{font-size:12px;color:var(--mu);white-space:nowrap}
+.book-nav .count{min-width:86px;padding:4px 14px;border:1px solid color-mix(in srgb,var(--ac) 24%,var(--ln));border-radius:11px;background:var(--sf);text-align:center;color:var(--ink);font:400 19px 'Amiri Quran',serif;box-shadow:0 2px 7px #18384710}
+.running-head{position:relative;margin:0 0 16px;padding:7px 16px;border-block:1px solid color-mix(in srgb,var(--ac) 42%,var(--ln));background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac) 7%,var(--paper)) 16%,color-mix(in srgb,var(--ac) 7%,var(--paper)) 84%,transparent);text-align:center;color:var(--ac);font:400 18px 'Amiri Quran',serif}
+@media(max-width:520px){.book-stage{padding:6px 5px 2px}.book-page{padding:34px 28px 36px}.book-nav{min-height:56px;padding-inline:12px}.book-nav .nav-label{display:none}.book-nav button{width:42px;height:42px;border-radius:14px}.book-nav .count{min-width:76px}.rh{padding:6px 8px}.rh::before{inset:5px 45px}.rh .rh-meta{gap:4px}.rh .rh-meta span{padding:4px 5px;font-size:15px}}
 .cart{margin:0 auto 18px;max-width:420px;text-align:center;padding:12px 10px;border:3px double color-mix(in srgb,var(--ac) 75%,var(--ln));border-radius:4px;background:var(--paper)}
 .cart span{font:400 36px/1.4 'Amiri Quran',serif;display:block;color:var(--ink)}
 .cart small{display:block;color:var(--mu);font-size:13px}
 .bis{text-align:center;font:400 calc(var(--fs) + 2px)/2 'Amiri Quran',serif;margin-bottom:10px}
 .juz{margin:16px 0;padding:4px 12px;text-align:center;font-size:13px;color:var(--au);border-block:1px solid var(--ln)}
-.msh{font:400 var(--fs)/2.2 'Amiri Quran',serif;text-align:justify}
-.v{border-radius:8px;cursor:pointer}
-.v.sel{background:var(--hl)}
-.v.bk{box-shadow:inset -3px 0 var(--au)}
+.msh{font:400 var(--fs)/2.08 'Amiri Quran',serif;text-align:justify;text-align-last:center;color:var(--ink);text-rendering:optimizeLegibility}
+.v{border-radius:7px;cursor:pointer;transition:background .16s,box-shadow .16s}
+.v:hover{background:color-mix(in srgb,var(--hl) 58%,transparent)}
+.v.sel{background:var(--hl);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac) 12%,transparent)}
+.v.bk{box-shadow:inset -3px 0 var(--au);background:color-mix(in srgb,var(--au) 8%,transparent)}
 .e{color:var(--ac);font-size:.8em;white-space:nowrap}
 .lst .v{display:block;padding:12px 10px;border-bottom:1px solid var(--ln)}
 .lst .ar{margin:0;font:400 var(--fs)/2.1 'Amiri Quran',serif}
@@ -98,7 +105,7 @@ main{max-width:760px;margin:0 auto;padding:14px 14px 40px}
 .detail-card header{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ln);padding-bottom:10px;margin-bottom:12px}
 .detail-card h3{margin:0;flex:1}.detail-card p{margin:0;line-height:1.9;white-space:pre-wrap}
 .detail-card button{width:36px;height:36px;border-radius:50%;background:var(--hl);color:var(--ac);font-size:20px}
-.surah-divider{height:54px;margin:0 0 12px;display:grid;place-items:center;background:url('decor/surah-divider.svg') center/100% 100% no-repeat;color:var(--ink);font:400 25px/1.3 'Amiri Quran',serif;text-align:center}
+.surah-divider{height:58px;margin:0 0 12px;display:grid;place-items:center;background:url('decor/surah-divider.svg') center/100% 100% no-repeat;color:var(--ink);font:400 clamp(20px,5vw,25px)/1.3 'Amiri Quran',serif;text-align:center}
 #set{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;align-items:stretch}
 #set[hidden]{display:none}
 .sh{width:100%;max-width:760px;margin:0 auto;background:var(--bg);overflow-y:auto;padding:0 0 calc(24px + env(safe-area-inset-bottom,0px))}
@@ -172,10 +179,9 @@ select.fi{margin-bottom:0}
     </div>
   </div>
   <div class="book-nav" aria-label="تقليب صفحات المصحف">
-    <button id="pagePrev" type="button" aria-label="الصفحة السابقة">›</button>
-    <button id="hideAyat" type="button" aria-label="إخفاء الآيات">◉</button>
-    <span class="count" id="pageCount" aria-live="polite"></span>
-    <button id="pageNext" type="button" aria-label="الصفحة التالية">‹</button>
+    <div class="nav-group"><button id="pagePrev" type="button" aria-label="الصفحة السابقة" title="الصفحة السابقة">›</button><span class="nav-label">السابق</span></div>
+    <span class="count" aria-label="رقم الصفحة">صفحة <b id="pageCount" aria-live="polite"></b></span>
+    <div class="nav-group"><button id="hideAyat" type="button" aria-label="إخفاء الآيات" title="إخفاء الآيات" aria-pressed="false">◉</button><button id="pageNext" type="button" aria-label="الصفحة التالية" title="الصفحة التالية">‹</button><span class="nav-label">التالي</span></div>
   </div>
 </section>
 <div id="act" hidden>
@@ -422,7 +428,7 @@ $('#detailClose').onclick=()=>{$('#detail').hidden=true};
 $('#detail').onclick=e=>{if(e.target.id==='detail')$('#detail').hidden=true};
 $('#pagePrev').onclick=()=>turnPage(-1);
 $('#pageNext').onclick=()=>turnPage(1);
-$('#hideAyat').onclick=()=>{st.hideAyat=!st.hideAyat;save();theme();$('#hideAyat').setAttribute('aria-pressed',String(st.hideAyat))};
+$('#hideAyat').onclick=()=>{st.hideAyat=!st.hideAyat;save();theme();const b=$('#hideAyat'),label=st.hideAyat?'إظهار الآيات':'إخفاء الآيات';b.setAttribute('aria-pressed',String(st.hideAyat));b.setAttribute('aria-label',label);b.title=label};
 let touchX=0,touchY=0;
 $('#bookArea').addEventListener('touchstart',e=>{const t=e.changedTouches[0];touchX=t.clientX;touchY=t.clientY},{passive:true});
 $('#bookArea').addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-touchX,dy=t.clientY-touchY;if(Math.abs(dx)>52&&Math.abs(dx)>Math.abs(dy)*1.25)turnPage(dx<0?1:-1)},{passive:true});
