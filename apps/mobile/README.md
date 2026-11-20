@@ -101,7 +101,7 @@ npm run build:aab
 
 ملف `eas.json` يعرّف `preview` لتوزيع APK داخلي و`production` لإخراج AAB. يعيد EAS رابط الملف بعد اكتمال البناء. يتطلب البناء السحابي حساب Expo وإعداد المشروع؛ لم يُضمّن معرّف مشروع EAS أو بيانات اعتماد.
 
-لبناء APK تجريبي قابل للتثبيت دون حساب EAS، شغّل سير عمل GitHub Actions **Build Expo APK** يدويًا على الفرع المطلوب. ينتج سير العمل APK موقّعًا بمفتاح debug ويرفعه كـ artifact باسم `tamimi-mushaf-debug-apk` لمدة سبعة أيام. هذه نسخة اختبار للاستخدام المباشر، وليست إصدار متجر Google Play.
+لبناء APK تجريبي قابل للتثبيت دون حساب EAS، شغّل سير عمل GitHub Actions **Build Expo APK** يدويًا على الفرع المطلوب. ينتج سير العمل APK محسّنًا لأجهزة ARM64 وموقّعًا بمفتاح debug، ويرفعه كـ artifact باسم `tamimi-mushaf-arm64-apk` لمدة سبعة أيام. هذه نسخة للاستخدام الجانبي وليست إصدار متجر Google Play.
 
 تحتاج نسخة الويب إلى ترويسات `Cross-Origin-Embedder-Policy: credentialless` و`Cross-Origin-Opener-Policy: same-origin` كي يعمل SQLite/WASM. أُضيفت للـ Metro وأُعدّت عبر إضافة Expo Hosting؛ عند استخدام استضافة أخرى، اضبط الترويسات نفسها لدى مزوّد الاستضافة.
 

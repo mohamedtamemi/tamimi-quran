@@ -47,14 +47,17 @@ jobs:
         working-directory: apps/mobile
         run: npx expo prebuild --platform android --no-install --non-interactive
 
-      - name: Build installable debug APK
+      - name: Build optimized arm64 APK
         working-directory: apps/mobile/android
-        run: ./gradlew --no-daemon :app:assembleDebug
+        run: |
+          ./gradlew --no-daemon :app:assembleRelease \
+            -PreactNativeArchitectures=arm64-v8a \
+            -Pandroid.enableShrinkResourcesInReleaseBuilds=true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: tamimi-mushaf-debug-apk
-          path: apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          name: tamimi-mushaf-arm64-apk
+          path: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 7
