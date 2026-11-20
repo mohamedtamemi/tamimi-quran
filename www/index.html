@@ -6,9 +6,15 @@
 <title>تميمي قرآن</title>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
-:root{--bg:#0B1A1F;--sf:#132A31;--ink:#EAF1F2;--mu:#8FA9AF;--ac:#5CC8CD;--au:#D9A441;--ln:#21404A;--hl:#1A3943;--hd:#0D3B42;--fs:30px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
-:root[data-theme="light"]{--bg:#EEF3F3;--sf:#FFFFFF;--ink:#12272C;--mu:#587176;--ac:#0F6B73;--au:#A8741A;--ln:#D3DEDF;--hl:#DDEBEC;--hd:#0D3B42;color-scheme:light}
-:root[data-theme="dark"]{color-scheme:dark}
+:root{--bg:#F6F9FC;--sf:#FFFFFF;--ink:#17222B;--mu:#67727D;--ac:#1673A8;--au:#1673A8;--ln:#DFE7ED;--hl:#E8F2F8;--hd:#F0F6FB;--paper:#FFFFFF;--fs:30px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{--bg:#0B1A1F;--sf:#132A31;--ink:#EAF1F2;--mu:#8FA9AF;--ac:#5CC8CD;--au:#D9A441;--ln:#21404A;--hl:#1A3943;--hd:#0D3B42;--paper:#132A31;color-scheme:dark}
+:root[data-accent="teal"]{--ac:#16817E;--au:#16817E}
+:root[data-accent="red"]{--ac:#A52D36;--au:#A52D36}
+:root[data-accent="sand"]{--ac:#A57A51;--au:#A57A51}
+:root[data-accent="green"]{--ac:#668A31;--au:#668A31}
+:root[data-paper="warm"]{--paper:#FFF8E9}
+:root[data-paper="mint"]{--paper:#F0F8F3}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Readex Pro',system-ui,sans-serif;line-height:1.6}
@@ -41,11 +47,19 @@ main{max-width:760px;margin:0 auto;padding:14px 14px 40px}
 .empty{color:var(--mu);text-align:center;padding:36px 12px}
 #rd{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 #rd[hidden]{display:none}
-.rh{position:relative;z-index:2;flex:none;display:flex;align-items:center;justify-content:space-between;background:var(--hd);color:#fff;padding:6px 10px}
-.rh b{font:400 22px 'Amiri Quran',serif}
+.rh{position:relative;z-index:2;flex:none;display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:8px;background:var(--bg);color:var(--ink);padding:7px 12px;border-bottom:1px solid var(--ln)}
+.rh .rh-icon{width:40px;height:40px;border-radius:13px;background:var(--hl);color:var(--ac);font-size:21px}
+.rh .rh-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center}
+.rh .rh-meta span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;padding:5px 8px;border-block:1px solid color-mix(in srgb,var(--ac) 24%,transparent);font:400 17px 'Amiri Quran',serif;color:var(--ink)}
+.rh .rh-meta span:first-child{border-radius:12px 2px 2px 12px}.rh .rh-meta span:last-child{border-radius:2px 12px 12px 2px}
 .book-stage{position:relative;flex:1;min-height:0;width:100%;max-width:760px;margin:0 auto;padding:12px 14px 6px;perspective:1600px}
 .book-area{position:relative;width:100%;height:100%;min-height:0;touch-action:pan-y}
-.book-page{position:absolute;inset:0;z-index:0;overflow-y:auto;overscroll-behavior:contain;background:var(--sf);border:1px solid var(--ln);border-inline-start:4px double var(--au);border-radius:12px 4px 4px 12px;box-shadow:inset 10px 0 18px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.16);padding:14px 22px 22px;transform-style:preserve-3d;backface-visibility:hidden}
+#rd[data-orientation="landscape"] .book-stage{display:grid;place-items:center;max-width:1000px}
+#rd[data-orientation="landscape"] .book-area{width:min(100%,980px);height:auto;aspect-ratio:1.25;max-height:100%}
+#rd.ayat-hidden .book-area .msh,#rd.ayat-hidden .book-area .lst{visibility:hidden}
+.book-page{position:absolute;inset:0;z-index:0;overflow-y:auto;overscroll-behavior:contain;background:var(--paper);border:1px solid color-mix(in srgb,var(--ac) 50%,var(--ln));border-radius:5px;box-shadow:inset 8px 0 16px rgba(0,0,0,.045),0 6px 18px rgba(0,0,0,.1);padding:27px 27px 28px;transform-style:preserve-3d;backface-visibility:hidden}
+.book-page::before{content:"";position:absolute;inset:8px;z-index:3;pointer-events:none;border:1px solid color-mix(in srgb,var(--ac) 42%,transparent);outline:1px dotted color-mix(in srgb,var(--ac) 35%,transparent);outline-offset:3px;border-radius:2px;background:radial-gradient(ellipse at center,transparent 42%,var(--ac) 50%,transparent 60%) top center/20px 7px repeat-x,radial-gradient(ellipse at center,transparent 42%,var(--ac) 50%,transparent 60%) bottom center/20px 7px repeat-x,radial-gradient(ellipse at center,transparent 42%,var(--ac) 50%,transparent 60%) left center/7px 20px repeat-y,radial-gradient(ellipse at center,transparent 42%,var(--ac) 50%,transparent 60%) right center/7px 20px repeat-y}
+.book-page::after{content:"۞";position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:3;pointer-events:none;padding:0 7px;background:var(--paper);color:var(--ac);font-size:15px;line-height:1}
 .book-page.page{max-width:none;height:100%;margin:0 auto}
 .book-page.page-back{z-index:0}
 .book-page.page-front{z-index:1;transform-origin:right center;transition:transform .42s cubic-bezier(.2,.72,.22,1),box-shadow .42s}
@@ -55,10 +69,10 @@ main{max-width:760px;margin:0 auto;padding:14px 14px 40px}
 .book-nav button{min-width:46px;min-height:40px;padding:5px 14px;border:1px solid var(--ln);border-radius:99px;background:var(--sf);color:var(--ac)}
 .book-nav button:disabled{opacity:.35}
 .book-nav .count{min-width:120px;text-align:center;font-size:12px}
-.running-head{margin:0 0 14px;padding:0 0 6px;border-bottom:1px solid var(--ln);text-align:center;color:var(--au);font-size:12px}
+.running-head{margin:0 0 14px;padding:0 0 6px;border-bottom:1px solid var(--ln);text-align:center;color:var(--ac);font:400 18px 'Amiri Quran',serif}
 @media(max-width:520px){.book-stage{padding:9px 9px 4px}.book-page{padding:12px 16px 18px}.book-nav{min-height:48px}}
-.cart{margin:0 auto 18px;max-width:420px;text-align:center;padding:14px 10px;border:3px double var(--au);border-radius:10px;background:var(--sf)}
-.cart span{font:400 36px/1.4 'Amiri Quran',serif;display:block;color:var(--ac)}
+.cart{margin:0 auto 18px;max-width:420px;text-align:center;padding:12px 10px;border:3px double color-mix(in srgb,var(--ac) 75%,var(--ln));border-radius:4px;background:var(--paper)}
+.cart span{font:400 36px/1.4 'Amiri Quran',serif;display:block;color:var(--ink)}
 .cart small{display:block;color:var(--mu);font-size:13px}
 .bis{text-align:center;font:400 calc(var(--fs) + 2px)/2 'Amiri Quran',serif;margin-bottom:10px}
 .juz{margin:16px 0;padding:4px 12px;text-align:center;font-size:13px;color:var(--au);border-block:1px solid var(--ln)}
@@ -66,18 +80,39 @@ main{max-width:760px;margin:0 auto;padding:14px 14px 40px}
 .v{border-radius:8px;cursor:pointer}
 .v.sel{background:var(--hl)}
 .v.bk{box-shadow:inset -3px 0 var(--au)}
-.e{color:var(--au);font-size:.8em;white-space:nowrap}
+.e{color:var(--ac);font-size:.8em;white-space:nowrap}
 .lst .v{display:block;padding:12px 10px;border-bottom:1px solid var(--ln)}
 .lst .ar{margin:0;font:400 var(--fs)/2.1 'Amiri Quran',serif}
 .lst .en{margin:4px 0 0;color:var(--mu);font-size:var(--tfs,15px);line-height:1.6;text-align:left}
 #act{position:fixed;inset:auto 0 0;z-index:50;display:flex;justify-content:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--sf);border-top:1px solid var(--ln)}
 #act[hidden]{display:none}
 #act button{padding:9px 16px;border-radius:99px;background:var(--hl);color:var(--ac);font-size:14px}
-#set{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.45);display:flex;align-items:flex-end}
+#set{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;align-items:stretch}
 #set[hidden]{display:none}
-.sh{width:100%;max-width:520px;margin:0 auto;background:var(--sf);border-radius:20px 20px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom,0px))}
-.sh h2{margin:0 0 14px;font-size:17px}
-.sh label{display:block;margin:14px 0 6px;color:var(--mu);font-size:13px}
+.sh{width:100%;max-width:760px;margin:0 auto;background:var(--bg);overflow-y:auto;padding:0 0 calc(24px + env(safe-area-inset-bottom,0px))}
+.settings-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--sf);border-bottom:1px solid var(--ln)}
+.settings-head h2{margin:0;flex:1;font-size:19px}
+.settings-head button{width:40px;height:40px;border-radius:50%;background:var(--hl);color:var(--ac);font-size:21px}
+.settings-group{padding:0 18px 8px;background:var(--sf);margin-bottom:10px}
+.settings-group h3{margin:0 -18px 4px;padding:11px 18px;background:var(--hd);color:var(--mu);font-size:14px}
+.settings-row{min-height:58px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--ln);padding:8px 0}
+.settings-row:last-child{border-bottom:0}
+.settings-row .set-icon{width:34px;height:34px;display:grid;place-items:center;color:var(--mu);font-size:23px}
+.settings-row .set-label{flex:1;font-weight:550}
+.settings-row .set-note{display:block;color:var(--mu);font-size:12px;font-weight:400}
+.settings-row input[type=checkbox]{appearance:none;width:54px;height:30px;border-radius:99px;background:#c9cdd1;position:relative;flex:none;cursor:pointer;transition:background .2s}
+.settings-row input[type=checkbox]::after{content:"";position:absolute;width:24px;height:24px;top:3px;right:3px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0002;transition:transform .2s}
+.settings-row input[type=checkbox]:checked{background:var(--ac)}
+.settings-row input[type=checkbox]:checked::after{transform:translateX(-24px)}
+.settings-row .seg{flex:1;max-width:220px}
+.settings-row .seg button{padding:6px;font-size:13px}
+.palette{display:flex;justify-content:space-around;gap:12px;padding:12px 4px 16px}
+.palette button{width:42px;height:42px;border-radius:50%;border:2px solid var(--sf);box-shadow:0 0 0 1px var(--ln)}
+.palette button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ac)}
+.palette.paper button{width:34px;height:34px}
+.settings-row label{margin:0;color:var(--ink);font-size:14px}
+.settings-row input[type=range]{width:46%;accent-color:var(--ac)}
+.settings-row select{max-width:54%;padding:8px;border:1px solid var(--ln);border-radius:9px;background:var(--sf);color:var(--ink)}
 .sh input[type=range]{width:100%;accent-color:var(--ac)}
 .seg{display:flex;border:1px solid var(--ln);border-radius:12px;overflow:hidden}
 .seg button{flex:1;padding:9px;font-size:14px}
@@ -117,7 +152,7 @@ select.fi{margin-bottom:0}
 </header>
 <main id="v"></main>
 <section id="rd" hidden>
-  <div class="rh"><button class="ib" id="bk" aria-label="رجوع">›</button><b id="rt"></b><div><button class="ib" id="nx" aria-label="السورة التالية">‹</button><button class="ib" id="pv" aria-label="السورة السابقة">›</button><button class="ib" id="cf2" aria-label="الإعدادات">Aa</button></div></div>
+  <div class="rh"><button class="rh-icon" id="bk" aria-label="رجوع">⌕</button><div class="rh-meta"><span id="rj">الجزء ١</span><span id="rt"></span></div><button class="rh-icon" id="cf2" aria-label="الإعدادات">☰</button></div>
   <div class="book-stage">
     <div class="book-area" id="bookArea">
       <div class="book-page page-back" id="bookBack" aria-hidden="true" hidden></div>
@@ -126,19 +161,39 @@ select.fi{margin-bottom:0}
   </div>
   <div class="book-nav" aria-label="تقليب صفحات المصحف">
     <button id="pagePrev" type="button" aria-label="الصفحة السابقة">›</button>
+    <button id="hideAyat" type="button" aria-label="إخفاء الآيات">◉</button>
     <span class="count" id="pageCount" aria-live="polite"></span>
     <button id="pageNext" type="button" aria-label="الصفحة التالية">‹</button>
   </div>
 </section>
 <div id="act" hidden><button id="a1">علامة</button><button id="a2">نسخ</button><button id="a3">وصلت إلى هنا</button><button id="a4">استماع</button></div>
 <div id="set" hidden><div class="sh" role="dialog" aria-label="الإعدادات">
-  <h2>إعدادات القراءة</h2>
-  <label for="fs">حجم الخط</label><input type="range" id="fs" min="22" max="52" step="2">
-  <div class="pv" id="pvw">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>
-  <label for="tf">حجم خط الترجمة</label><input type="range" id="tf" min="13" max="26" step="1">
-  <label>طريقة العرض</label><div class="seg" id="md"><button data-v="msh">مصحف</button><button data-v="tr">آية مع الترجمة</button></div>
-  <label for="rc">القارئ (التلاوة تتطلب اتصالاً بالإنترنت)</label><select id="rc" class="fi"></select>
-  <label>المظهر</label><div class="seg" id="th"><button data-v="">تلقائي</button><button data-v="light">فاتح</button><button data-v="dark">داكن</button></div>
+  <div class="settings-head"><button id="closeSettings" aria-label="إغلاق الإعدادات">×</button><h2>الإعدادات والتخصيص</h2><span class="set-icon" aria-hidden="true">☻</span></div>
+  <section class="settings-group"><h3>الأدوات والخواص</h3>
+    <button class="settings-row setting-action" data-go="s"><span class="set-icon">▤</span><span class="set-label">المصحف<span class="set-note">متابعة القراءة وتقليب الصفحات</span></span><span>‹</span></button>
+    <button class="settings-row setting-action" data-go="j"><span class="set-icon">☷</span><span class="set-label">الفهرس والأجزاء</span><span>‹</span></button>
+    <button class="settings-row setting-action" data-go="m"><span class="set-icon">♧</span><span class="set-label">العلامات المرجعية</span><span>‹</span></button>
+    <button class="settings-row setting-action" data-go="k"><span class="set-icon">◷</span><span class="set-label">الختمات</span><span>‹</span></button>
+    <div class="settings-row"><span class="set-icon">⌄</span><label class="set-label" for="autoFlip">التقليب التلقائي للمصحف</label><input id="autoFlip" type="checkbox"></div>
+  </section>
+  <section class="settings-group"><h3>العرض والتخصيص</h3>
+    <div class="settings-row"><span class="set-icon">☾</span><label class="set-label" for="nightMode">القراءة الليلية</label><input id="nightMode" type="checkbox"></div>
+    <div class="settings-row"><span class="set-icon">◉</span><label class="set-label" for="showTranslation">عرض الترجمة</label><input id="showTranslation" type="checkbox"></div>
+    <div class="settings-row"><span class="set-icon">▣</span><label class="set-label" for="keepAwake">إبقاء الشاشة مضاءة</label><input id="keepAwake" type="checkbox"></div>
+    <div class="settings-row"><span class="set-icon">↕</span><span class="set-label">اتجاه المصحف</span><div class="seg" id="orientation"><button data-orient="portrait">رأسي</button><button data-orient="landscape">أفقي</button></div></div>
+    <div class="settings-row"><span class="set-icon">A</span><label class="set-label" for="fs">حجم خط المصحف</label><input type="range" id="fs" min="22" max="52" step="2"><output id="fsValue"></output></div>
+    <div class="settings-row"><span class="set-icon">文</span><label class="set-label" for="tf">حجم الترجمة</label><input type="range" id="tf" min="13" max="26" step="1"></div>
+    <div class="settings-row"><span class="set-icon">◫</span><span class="set-label">طريقة عرض الآيات</span><div class="seg" id="md"><button data-v="msh">مصحف</button><button data-v="tr">ترجمة</button></div></div>
+    <div class="settings-row"><span class="set-icon">◐</span><span class="set-label">مظهر التطبيق</span><div class="seg" id="th"><button data-v="light">فاتح</button><button data-v="dark">ليلي</button></div></div>
+    <div class="settings-row"><span class="set-icon">◉</span><span class="set-label">لون المصحف</span></div>
+    <div class="palette" id="accents"><button data-accent="blue" style="background:#1673A8" aria-label="أزرق"></button><button data-accent="green" style="background:#668A31" aria-label="أخضر"></button><button data-accent="sand" style="background:#A57A51" aria-label="رملي"></button><button data-accent="red" style="background:#A52D36" aria-label="أحمر"></button><button data-accent="teal" style="background:#16817E" aria-label="فيروزي"></button></div>
+    <div class="settings-row"><span class="set-icon">▧</span><span class="set-label">لون الصفحة</span></div>
+    <div class="palette paper" id="papers"><button data-paper="white" style="background:#fff" aria-label="أبيض"></button><button data-paper="warm" style="background:#FFF8E9" aria-label="عاجي"></button><button data-paper="mint" style="background:#F0F8F3" aria-label="أخضر فاتح"></button></div>
+  </section>
+  <section class="settings-group"><h3>المكتبات والصوت</h3>
+    <div class="settings-row"><span class="set-icon">♫</span><label class="set-label" for="rc">القارئ والتلاوة</label><select id="rc"></select></div>
+    <div class="settings-row"><span class="set-icon">ع</span><span class="set-label">ترجمة معاني الآيات<span class="set-note">الترجمة الإنجليزية المرفقة</span></span></div>
+  </section>
 </div></div>
 <div id="toast" hidden></div>
 <script>
@@ -151,11 +206,11 @@ const AR=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
 const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const norm=t=>t.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,'').replace(/[ٱأإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
 const ty=s=>s[4]==='meccan'?'مكية':'مدنية';
-let st={fs:30,mode:'msh',theme:'',bm:[],last:null,tc:0,tt:33,dk:0};
+let st={fs:30,mode:'msh',theme:'light',accent:'blue',paper:'white',orientation:'portrait',autoFlip:false,hideAyat:false,keepAwake:false,showTranslation:true,bm:[],last:null,tc:0,tt:33,dk:0};
 try{Object.assign(st,JSON.parse(localStorage.getItem('qapp1')||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem('qapp1',JSON.stringify(st))}catch(e){}};
-let tab='s',cur=0,sel=0,idx=null,tm,readerPages=[],pageIndex=0,pageTurnBusy=false,resizeTimer;
-function theme(){const r=document.documentElement;st.theme?r.setAttribute('data-theme',st.theme):r.removeAttribute('data-theme');r.style.setProperty('--fs',st.fs+'px');r.style.setProperty('--tfs',(st.tf||15)+'px')}
+let tab='s',cur=0,sel=0,idx=null,tm,readerPages=[],pageIndex=0,pageTurnBusy=false,resizeTimer,autoFlipTimer,wakeLock;
+function theme(){const r=document.documentElement;r.setAttribute('data-theme',st.theme||'light');r.dataset.accent=st.accent||'blue';r.dataset.paper=st.paper||'white';$('#rd').dataset.orientation=st.orientation||'portrait';$('#rd').classList.toggle('ayat-hidden',!!st.hideAyat);r.style.setProperty('--fs',st.fs+'px');r.style.setProperty('--tfs',(st.tf||15)+'px')}
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(tm);tm=setTimeout(()=>e.hidden=true,1800)}
 const isBk=k=>st.bm.includes(k);
 
@@ -230,10 +285,11 @@ function tasbih(){
 
 /* ---------- reader ---------- */
 function readerHeader(s,n){
-  let h=`<div class="cart"><span>${s[1]}</span><small>${s[2]}، ${s[3]}</small><small>${ty(s)}، ${AR(s[5].length)} آية</small></div>`;
+  let h='';
   if(n!==1&&n!==9)h+='<div class="bis">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>';
   return h;
 }
+function juzAt(n,a){let j=1;for(const [s,v] of J){if(n>s||(n===s&&a>=v))j++;else break}return Math.max(1,j-1)}
 function verseMarkup(n,i,tr){
   const s=D[n-1],v=s[5][i],k=n+':'+(i+1),c=isBk(k)?' bk':'';
   let h=JM[k]?`<div class="juz">الجزء ${AR(JM[k])}</div>`:'';
@@ -270,6 +326,7 @@ function showBookPage(i){
   pageIndex=Math.max(0,Math.min(i,readerPages.length-1));
   const front=$('#pg'),back=$('#bookBack');
   front.classList.remove('turn-next','turn-prev');front.innerHTML=readerPages[pageIndex]?.html||'';front.scrollTop=0;
+  $('#rj').textContent='الجزء '+AR(juzAt(cur,readerPages[pageIndex]?.start||1));
   back.hidden=true;back.innerHTML='';updateBookControls();
 }
 function repaginateReader(){
@@ -290,7 +347,7 @@ function turnPage(delta){
   back.innerHTML=next.html;back.hidden=false;back.scrollTop=0;
   const finish=()=>{
     if(!pageTurnBusy)return;pageTurnBusy=false;front.removeEventListener('transitionend',finish);
-    pageIndex=dest;front.classList.remove(className);front.innerHTML=next.html;front.scrollTop=0;back.hidden=true;back.innerHTML='';updateBookControls();
+    pageIndex=dest;front.classList.remove(className);front.innerHTML=next.html;front.scrollTop=0;back.hidden=true;back.innerHTML='';$('#rj').textContent='الجزء '+AR(juzAt(cur,next.start||1));updateBookControls();
   };
   front.addEventListener('transitionend',finish);
   requestAnimationFrame(()=>front.classList.add(className));
@@ -298,13 +355,14 @@ function turnPage(delta){
 }
 function openS(n,a){
   stopA();cur=n;sel=0;pageTurnBusy=false;$('#act').hidden=true;const s=D[n-1];
-  $('#rt').textContent='سورة '+s[1];$('#rd').hidden=false;document.body.style.overflow='hidden';
+  $('#rt').textContent='سورة '+s[1];$('#rj').textContent='الجزء '+AR(juzAt(n,a));$('#rd').hidden=false;document.body.style.overflow='hidden';
+  clearInterval(autoFlipTimer);if(st.autoFlip)autoFlipTimer=setInterval(()=>turnPage(1),10000);
   readerPages=buildReaderPages(n,st.mode==='tr');
   let p=readerPages.findIndex(x=>a>=x.start&&a<=x.end);if(p<0)p=0;showBookPage(p);
   if(a>1){const e=$('#a'+a);if(e)e.classList.add('sel')}
   try{if(location.hash!=='#s'+n)location.hash='s'+n}catch(e){}
 }
-function closeR(){stopA();$('#rd').hidden=true;$('#act').hidden=true;document.body.style.overflow='';cur=0;if(tab==='s')show('s');if(tab==='m')show('m')}
+function closeR(){stopA();clearInterval(autoFlipTimer);$('#rd').hidden=true;$('#act').hidden=true;document.body.style.overflow='';cur=0;if(tab==='s')show('s');if(tab==='m')show('m')}
 function pick(el){
   document.querySelectorAll('.v.sel').forEach(x=>x.classList.remove('sel'));
   if(sel===+el.dataset.a){sel=0;$('#act').hidden=true;return}
@@ -333,24 +391,32 @@ $('#a2').onclick=async()=>{const s=D[cur-1],v=s[5][sel-1],t=`${v[0]} ﴿${AR(sel
 $('#a4').onclick=()=>{playing?stopA():play(sel)};
 $('#a3').onclick=()=>{st.last=[cur,sel];save();toast('تم حفظ موضع القراءة')};
 $('#bk').onclick=()=>{try{location.hash=''}catch(e){}closeR()};
-$('#nx').onclick=()=>cur<114&&openS(cur+1,1);
-$('#pv').onclick=()=>cur>1&&openS(cur-1,1);
 $('#pagePrev').onclick=()=>turnPage(-1);
 $('#pageNext').onclick=()=>turnPage(1);
+$('#hideAyat').onclick=()=>{st.hideAyat=!st.hideAyat;save();theme();$('#hideAyat').setAttribute('aria-pressed',String(st.hideAyat))};
 let touchX=0,touchY=0;
 $('#bookArea').addEventListener('touchstart',e=>{const t=e.changedTouches[0];touchX=t.clientX;touchY=t.clientY},{passive:true});
 $('#bookArea').addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-touchX,dy=t.clientY-touchY;if(Math.abs(dx)>52&&Math.abs(dx)>Math.abs(dy)*1.25)turnPage(dx<0?1:-1)},{passive:true});
 document.addEventListener('keydown',e=>{if(!cur||e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,textarea,select,button'))return;if(e.key==='ArrowLeft')turnPage(1);else if(e.key==='ArrowRight')turnPage(-1)});
 addEventListener('resize',()=>{if(!cur)return;clearTimeout(resizeTimer);resizeTimer=setTimeout(repaginateReader,160)});
-function cfg(o){$('#set').hidden=!o;if(o){$('#fs').value=st.fs;$('#tf').value=st.tf||15;sync()}}
-function sync(){document.querySelectorAll('#md button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.mode));document.querySelectorAll('#th button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.theme))}
+function cfg(o){$('#set').hidden=!o;document.body.style.overflow=o?'hidden':(cur?'hidden':'');if(o){clearInterval(autoFlipTimer);$('#fs').value=st.fs;$('#tf').value=st.tf||15;$('#nightMode').checked=st.theme==='dark';$('#showTranslation').checked=!!st.showTranslation;$('#keepAwake').checked=!!st.keepAwake;$('#autoFlip').checked=!!st.autoFlip;$('#fsValue').value=AR(st.fs);$('#hideAyat').setAttribute('aria-pressed',String(!!st.hideAyat));sync()}else if(cur&&st.autoFlip)autoFlipTimer=setInterval(()=>turnPage(1),10000)}
+function sync(){document.querySelectorAll('#md button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.mode));document.querySelectorAll('#th button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.theme));document.querySelectorAll('#orientation button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.orient===(st.orientation||'portrait')));document.querySelectorAll('#accents button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.accent===(st.accent||'blue')));document.querySelectorAll('#papers button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.paper===(st.paper||'white')))}
 $('#cfg').onclick=$('#cf2').onclick=()=>cfg(true);
+$('#closeSettings').onclick=()=>cfg(false);
 $('#set').onclick=e=>{if(e.target.id==='set')cfg(false)};
-$('#fs').oninput=e=>{st.fs=+e.target.value;theme();save();repaginateReader()};
+$('#set').addEventListener('click',e=>{const go=e.target.closest('[data-go]');if(!go)return;const dest=go.dataset.go;cfg(false);if(dest==='s'){if(!cur&&st.last)openS(+st.last[0],+st.last[1]);else show('s');return}if(cur){try{location.hash=''}catch(x){}closeR()}show(dest)});
+$('#fs').oninput=e=>{st.fs=+e.target.value;$('#fsValue').value=AR(st.fs);theme();save();repaginateReader()};
 $('#tf').oninput=e=>{st.tf=+e.target.value;theme();save();repaginateReader()};
-$('#md').onclick=e=>{const b=e.target.closest('button');if(!b)return;st.mode=b.dataset.v;save();sync();if(cur)openS(cur,sel||1)};
+$('#md').onclick=e=>{const b=e.target.closest('button');if(!b)return;st.mode=b.dataset.v;if(st.mode==='tr')st.showTranslation=true;save();sync();if(cur)openS(cur,sel||1)};
 $('#th').onclick=e=>{const b=e.target.closest('button');if(!b)return;st.theme=b.dataset.v;save();theme();sync()};
-$('#thm').onclick=()=>{const dark=st.theme!=='light';st.theme=dark?'light':'dark';save();theme()};
+$('#thm').onclick=()=>{st.theme=st.theme==='dark'?'light':'dark';save();theme();sync()};
+$('#nightMode').onchange=e=>{$('#th').querySelector(`[data-v="${e.target.checked?'dark':'light'}"]`).click()};
+$('#showTranslation').onchange=e=>{st.showTranslation=e.target.checked;if(st.mode==='tr'&&!e.target.checked){st.mode='msh';sync()}save();if(cur)openS(cur,sel||1)};
+$('#orientation').onclick=e=>{const b=e.target.closest('[data-orient]');if(!b)return;st.orientation=b.dataset.orient;save();theme();sync();repaginateReader()};
+$('#accents').onclick=e=>{const b=e.target.closest('[data-accent]');if(!b)return;st.accent=b.dataset.accent;save();theme();sync()};
+$('#papers').onclick=e=>{const b=e.target.closest('[data-paper]');if(!b)return;st.paper=b.dataset.paper;save();theme();sync()};
+$('#autoFlip').onchange=e=>{st.autoFlip=e.target.checked;save();clearInterval(autoFlipTimer);if(st.autoFlip&&cur)autoFlipTimer=setInterval(()=>turnPage(1),10000)};
+$('#keepAwake').onchange=async e=>{st.keepAwake=e.target.checked;save();try{if(st.keepAwake&&navigator.wakeLock)wakeLock=await navigator.wakeLock.request('screen');else if(wakeLock){await wakeLock.release();wakeLock=null}if(st.keepAwake&&!navigator.wakeLock)toast('إبقاء الشاشة غير متاح على هذا الجهاز')}catch(x){toast('تعذّر إبقاء الشاشة مضاءة')}};
 addEventListener('hashchange',()=>{const m=/^#s(\d+)$/.exec(location.hash);if(m){const n=+m[1];if(n>=1&&n<=114&&n!==cur)openS(n,1)}else if(cur)closeR()});
 $('#rc').innerHTML=RC.map(r=>`<option value="${r[0]}">${r[1]}</option>`).join('');$('#rc').value=st.rc||RC[0][0];$('#rc').onchange=e=>{st.rc=e.target.value;save()};
 theme();show('s');
