@@ -7,7 +7,7 @@
 ## الحصول على ملف APK (بدون تثبيت أي أدوات)
 1. أنشئ مستودعاً جديداً على GitHub وارفع محتويات هذا المجلد إليه (فرع `main`).
 2. افتح تبويب **Actions** ← **Build APK** ← **Run workflow** (يعمل تلقائياً أيضاً عند الرفع).
-3. بعد دقائق نزّل الملف من **Artifacts** باسم `tamimi-quran-apk`، وفكّ الضغط ثم ثبّت `app-debug.apk` على هاتفك (فعّل «التثبيت من مصادر غير معروفة»).
+3. بعد دقائق نزّل الملف من **Artifacts** باسم `tamimi-quran-apk`، وفكّ الضغط ثم ثبّت `tamimi-quran.apk` على هاتفك (فعّل «التثبيت من مصادر غير معروفة»).
 
 > هذا الملف **debug** مناسب للتجربة. للنشر في Google Play ابنِ نسخة release موقّعة بمفتاحك الخاص (`./gradlew bundleRelease`) ولا ترفع مفتاح التوقيع إلى المستودع.
 
@@ -17,7 +17,7 @@
 npm ci
 npm run apk
 ```
-الناتج: `android/app/build/outputs/apk/debug/app-debug.apk`
+الناتج: `android/app/build/outputs/apk/debug/tamimi-quran.apk`
 
 ## التطوير
 كل الواجهة في `www/index.html` (الخطوط في `www/fonts`). بعد أي تعديل شغّل `npx cap sync android`. يمكن فتح الملف مباشرة في المتصفح للتجربة السريعة (التلاوة تعمل مع الإنترنت).
