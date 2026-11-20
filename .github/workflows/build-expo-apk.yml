@@ -1,6 +1,9 @@
 name: Build Expo APK
 
 on:
+  push:
+    branches:
+      - mohamedtamemi-quran-android-mvp
   workflow_dispatch:
 
 permissions:
