@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">تميمي قرآن</string>
+    <string name="title_activity_main">تميمي قرآن</string>
+    <string name="package_name">com.tamimi.quran</string>
+    <string name="custom_url_scheme">com.tamimi.quran</string>
+</resources>
